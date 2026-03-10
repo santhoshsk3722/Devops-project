@@ -5,41 +5,40 @@ pool:
   name: Default
 
 variables:
-  imageName: devops-demo
+  # Using variables makes it easier to change later
+  imageRepository: 'santhoshsk3722/devops-demo' 
+  dockerfilePath: 'app/Dockerfile'
+  tag: '$(Build.BuildId)'
 
 stages:
-
-# Stage 1 - Build Application
 - stage: Build
   displayName: Build Spring Boot App
-
   jobs:
   - job: MavenBuild
     steps:
-
     - task: Maven@3
       inputs:
         mavenPomFile: 'app/pom.xml'
         goals: 'clean package'
         publishJUnitResults: false
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.17'
+        javaHomeOption: 'Path'
+        jdkDirectory: 'C:\Program Files\Java\jdk-17' # Ensure this matches your local path
+        jdkArchitectureOption: 'x64'
 
-# Stage 2 - Build Docker Image
 - stage: Docker
   displayName: Build Docker Image
   dependsOn: Build
-
+  condition: succeeded() # Only run if Build stage passes
   jobs:
   - job: DockerBuild
     steps:
-
     - task: Docker@2
-      displayName: Build and Push Image
+      displayName: Build and Push to Docker Hub
       inputs:
         containerRegistry: 'dockerhub'
-        repository: 'YOUR_DOCKER_USERNAME/devops-demo'
+        repository: $(imageRepository)
         command: 'buildAndPush'
-        Dockerfile: 'app/Dockerfile'
+        Dockerfile: $(dockerfilePath)
         tags: |
+          $(tag)
           latest
