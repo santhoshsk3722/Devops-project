@@ -38,7 +38,7 @@ stages:
         containerRegistry: 'dockerhub'
         repository: 'santhoshsk3722/devops-project'
         command: 'buildAndPush'
-        Dockerfile: '/app/Dockerfile'
+        Dockerfile: 'D:\Santhosh\Devops project\app\Dockerfile'
         tags: |
           $(tag)
           latest
