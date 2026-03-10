@@ -36,9 +36,9 @@ stages:
       displayName: Build and Push to Docker Hub
       inputs:
         containerRegistry: 'dockerhub'
-        repository: $(imageRepository)
+        repository: 'santhoshsk3722/devops-project'
         command: 'buildAndPush'
-        Dockerfile: $(dockerfilePath)
+        Dockerfile: '/app/Dockerfile'
         tags: |
           $(tag)
           latest
