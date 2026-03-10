@@ -1,0 +1,45 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: devops-demo
+
+stages:
+
+# Stage 1 - Build Application
+- stage: Build
+  displayName: Build Spring Boot App
+
+  jobs:
+  - job: MavenBuild
+    steps:
+
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'app/pom.xml'
+        goals: 'clean package'
+        publishJUnitResults: false
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.17'
+
+# Stage 2 - Build Docker Image
+- stage: Docker
+  displayName: Build Docker Image
+  dependsOn: Build
+
+  jobs:
+  - job: DockerBuild
+    steps:
+
+    - task: Docker@2
+      displayName: Build and Push Image
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: 'YOUR_DOCKER_USERNAME/devops-demo'
+        command: 'buildAndPush'
+        Dockerfile: 'app/Dockerfile'
+        tags: |
+          latest
