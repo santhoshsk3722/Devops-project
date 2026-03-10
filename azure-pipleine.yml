@@ -33,12 +33,12 @@ stages:
   - job: DockerBuild
     steps:
     - task: Docker@2
-    displayName: Build and Push
-    inputs:
-      containerRegistry: 'dockerhub' # This name must match Project Settings exactly
-      repository: 'santhoshsk3722/devops-project'
-      command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
-      tags: |
-        $(tag)
-        latest
+      displayName: Build and Push
+      inputs:
+        containerRegistry: 'dockerhub' # This name must match Project Settings exactly
+        repository: 'santhoshsk3722/devops-project'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
+          latest
