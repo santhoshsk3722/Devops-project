@@ -22,7 +22,7 @@ stages:
         goals: 'clean package'
         publishJUnitResults: false
         javaHomeOption: 'Path'
-        jdkDirectory: 'C:\Program Files\Java\jdk-17' # Ensure this matches your local path
+        jdkDirectory: 'C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot' # Ensure this matches your local path
         jdkArchitectureOption: 'x64'
 
 - stage: Docker
